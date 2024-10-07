@@ -9,19 +9,26 @@ def emotion_detector(text_to_analyse):
 
     response = requests.post(url, json = input_json, headers = header, timeout = 10)
 
-    formated_response = json.loads(response.text)
-    emotion_predictions = formated_response['emotionPredictions']
-    emotion_predictions_first_instance = emotion_predictions[0]
-    emotion_object = emotion_predictions_first_instance['emotion']
+    if response.status_code == 400:
+        anger_score = None
+        disgust_score = None
+        fear_score = None
+        joy_score = None
+        sadness_score = None
+        dominant_emotion = None
+    else:
+        formated_response = json.loads(response.text)
+        emotion_predictions = formated_response['emotionPredictions']
+        emotion_predictions_first_instance = emotion_predictions[0]
+        emotion_object = emotion_predictions_first_instance['emotion']
+        sorted_emotion_object_by_score = sorted(emotion_object.items(), key=lambda x:x[1], reverse=True)
 
-    sorted_emotion_object_by_score = sorted(emotion_object.items(), key=lambda x:x[1], reverse=True)
-
-    anger_score = float(emotion_object['anger'])
-    disgust_score = float(emotion_object['disgust'])
-    fear_score = float(emotion_object['fear'])
-    joy_score = float(emotion_object['joy'])
-    sadness_score = float(emotion_object['sadness'])
-    dominant_emotion = str(sorted_emotion_object_by_score[0][0])
+        anger_score = float(emotion_object['anger'])
+        disgust_score = float(emotion_object['disgust'])
+        fear_score = float(emotion_object['fear'])
+        joy_score = float(emotion_object['joy'])
+        sadness_score = float(emotion_object['sadness'])
+        dominant_emotion = str(sorted_emotion_object_by_score[0][0])
 
     returned_response = {
         'anger': anger_score,
