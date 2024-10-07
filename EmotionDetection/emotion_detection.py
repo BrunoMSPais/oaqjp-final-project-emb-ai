@@ -21,7 +21,7 @@ def emotion_detector(text_to_analyse):
     fear_score = float(emotion_object['fear'])
     joy_score = float(emotion_object['joy'])
     sadness_score = float(emotion_object['sadness'])
-    dominante_emotion = str(sorted_emotion_object_by_score[0][0])
+    dominant_emotion = str(sorted_emotion_object_by_score[0][0])
 
     returned_response = {
         'anger': anger_score,
@@ -29,7 +29,7 @@ def emotion_detector(text_to_analyse):
         'fear': fear_score,
         'joy': joy_score,
         'sadness': sadness_score,
-        'dominant_emotion': dominante_emotion
+        'dominant_emotion': dominant_emotion
     }
 
     return returned_response
